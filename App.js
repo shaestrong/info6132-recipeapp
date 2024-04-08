@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -6,6 +6,8 @@ import ProfileView from './src/Views/ProfileView';
 import HomeView from './src/Views/HomeView';
 import RecipeAddView from './src/Views/RecipeAddView';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
+import { app } from './src/firebase'
+import RecipeRepository, { recipesMock } from './src/database/db';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,56 +24,31 @@ const theme = {
   },
 };
 
-const recipesMock = [
-  {
-    id: '1',
-    name: 'Chicken Tacos',
-    category: 'Dinner',
-    ingredients: [
-      'Corn tortillas',
-      'Chicken breast',
-      'Onion',
-      'Cilantro',
-      'Lime',
-      'Salsa',
-      'Salt',
-      'Oil'
-    ],
-    preparation: `Cook the chicken breast and shred it.
-    Finely chop the onion and cilantro.
-    Heat the tortillas on a griddle.
-    Fill the tortillas with shredded chicken, onion, and cilantro.
-    Add salsa to taste.
-    Squeeze lime over the top and add salt if needed.`
-  },
-  {
-    id: '2',
-    name: 'Caesar Salad',
-    category: 'Salads',
-    ingredients: [
-      'Romaine lettuce',
-      'Chicken breast',
-      'Croutons',
-      'Parmesan cheese',
-      'Caesar dressing'
-    ],
-    preparation: `Wash and sanitize the romaine lettuce, then chop it into pieces.
-    Cook the chicken breast and cut it into strips or cubes.
-    Mix the lettuce with the chicken, croutons, and Parmesan cheese in a bowl.
-    Add the Caesar dressing and mix well.
-    Serve cold and enjoy.`
-  },
-];
-
 const App = () => {
-  const [recipes, setRecipes] = useState(recipesMock);
-  
+  const repository = RecipeRepository(app);
+
+  // repository.populate();
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    repository.getAll().then((recipes) => {
+      setRecipes(recipes);
+    });
+  }, []);
+
+  // RecipeRepository.populate();
+
   const handleAddRecipe = (newRecipe) => {
     //TODO: DELETE ID CODE
-    const id = (recipes.length + 1).toString(); 
-    const recipeWithId = { ...newRecipe, id }; 
-    
-    setRecipes(prevRecipes => [...prevRecipes, recipeWithId]);
+    // const id = (recipes.length + 1).toString(); 
+    // const recipeWithId = { ...newRecipe, id }; 
+
+    repository.add(newRecipe).then(() => {
+      repository.getAll().then((recipes) => {
+        setRecipes(recipes);
+      });
+    });
+    // setRecipes(prevRecipes => [...prevRecipes, recipeWithId]);
   };
 
   return (
