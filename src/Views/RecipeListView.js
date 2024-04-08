@@ -18,39 +18,44 @@ const RecipeListView = ({ navigation, recipes }) => {
     setExpandedRecipe(expandedRecipe === recipeId ? null : recipeId);
   };
 
-  const renderItem = ({ item }) => (
-    <View style={styles.recipeItem}>
-      <TouchableOpacity
-        onPress={() => toggleRecipeExpansion(item.id)}
-        style={styles.recipeHeader}
-      >
-        <Text style={styles.recipeName}>{item.name}</Text>
-        <MaterialIcons
-          name={expandedRecipe === item.id ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
-          size={24}
-          color="#999"
-        />
-      </TouchableOpacity>
-      {expandedRecipe === item.id && (
-        <View style={styles.recipeContent}>
-          <Chip
-            style={{ backgroundColor: categoryPastelColors[item.category.toLowerCase()] , width: 120}}
-            avatar={<Avatar.Icon
-              size={38}
-              icon={categoryIcons[item.category.toLowerCase()]}
-              color={darkenedColor[item.category.toLowerCase()]}
-              style={{ backgroundColor: categoryPastelColors[item.category.toLowerCase()] }}
-            />}
-          >
-            {item.category}
-          </Chip>
-          <TouchableOpacity onPress={() => navigation.navigate('RecipeDetailView', { item })}>
-            <Text style={styles.viewRecipeText}>View Recipe</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    </View>
-  );
+  const renderItem = ({ item }) => {
+  
+  const capitalizedCategory = item.category.charAt(0).toUpperCase() + item.category.slice(1);
+  
+    return (
+      <View style={styles.recipeItem}>
+        <TouchableOpacity
+          onPress={() => toggleRecipeExpansion(item.id)}
+          style={styles.recipeHeader}
+        >
+          <Text style={styles.recipeName}>{item.name}</Text>
+          <MaterialIcons
+            name={expandedRecipe === item.id ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
+            size={24}
+            color="#999"
+          />
+        </TouchableOpacity>
+        {expandedRecipe === item.id && (
+          <View style={styles.recipeContent}>
+            <Chip
+              style={{ backgroundColor: categoryPastelColors[capitalizedCategory.toLowerCase()], width: 120 }}
+              avatar={<Avatar.Icon
+                size={38}
+                icon={categoryIcons[capitalizedCategory.toLowerCase()]}
+                color={darkenedColor[capitalizedCategory.toLowerCase()]}
+                style={{ backgroundColor: categoryPastelColors[capitalizedCategory.toLowerCase()] }}
+              />}
+            >
+              {capitalizedCategory}
+            </Chip>
+            <TouchableOpacity onPress={() => navigation.navigate('RecipeDetailView', { item })}>
+              <Text style={styles.viewRecipeText}>View Recipe</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+    );
+  };
 
   return (
     <FlatList
@@ -88,7 +93,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   viewRecipeText: {
-    paddingTop: 5,
+    paddingTop: 20,
     color: 'blue',
   },
 });

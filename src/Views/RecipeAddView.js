@@ -10,7 +10,7 @@ const RecipeAddView = ({ theme, onAddRecipe }) => {
   const [preparation, setPreparation] = useState('');
   const [errors, setErrors] = useState({});
 
-  const categories = ['breakfast', 'lunch', 'dinner', 'salads', 'drinks', 'desserts'];
+  const categories = ['Breakfast', 'Lunch', 'Dinner', 'Salads', 'Drinks', 'Desserts'];
 
   const handleAddRecipe = () => {
     let formErrors = {};
@@ -38,7 +38,7 @@ const RecipeAddView = ({ theme, onAddRecipe }) => {
 
     const ingredientsArray = ingredients.split(',').map(ingredient => ingredient.trim());
 
-  const newRecipe = { name, category, ingredients: ingredientsArray, preparation };
+    const newRecipe = { name, category, ingredients: ingredientsArray, preparation };
     onAddRecipe(newRecipe);
     setName('');
     setCategory('');
@@ -86,18 +86,21 @@ const RecipeAddView = ({ theme, onAddRecipe }) => {
         <HelperText type="error" visible={!!errors.ingredients} style={{ color: 'red' }}>
           {errors.ingredients}
         </HelperText>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Text style={styles.label}>Preparation</Text>
+          <HelperText type="error" visible={!!errors.preparation} style={{ color: 'red' }}>
+            {errors.preparation}
+          </HelperText>
+        </View>
         <PaperTextInput
-          label="Preparation"
           multiline
           numberOfLines={8}
           value={preparation}
           onChangeText={setPreparation}
+          placeholder={"Preparation steps"}
           style={[styles.largeInput, { backgroundColor: colors.surface }]}
           textAlignVertical="top"
         />
-        <HelperText type="error" visible={!!errors.preparation} style={{ color: 'red' }}>
-          {errors.preparation}
-        </HelperText>
       </ScrollView>
 
       <Button mode="contained" onPress={handleAddRecipe} style={styles.button}>
@@ -113,25 +116,24 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#fff',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
   input: {
     marginBottom: 4,
   },
   largeInput: {
     height: 160,
-    marginBottom: 4,
+    marginBottom: 8,
+    paddingBottom: 5,
+    paddingTop: 12, 
     textAlignVertical: 'top',
   },
   button: {
     marginTop: 12
   },
   label: {
-    fontSize: 18, 
-    fontWeight: 'bold'
+    marginTop: 10,
+    marginBottom: 5,
+    fontSize: 18,
+    fontWeight: 'bold',
   }
 });
 
