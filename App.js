@@ -59,7 +59,7 @@ const App = () => {
             tabBarIcon: ({ color, size }) => {
               return (
                 <MaterialIcons 
-                name="account-circle"  
+                name="add"  
                 size={size}
                 color={color} />
               )
