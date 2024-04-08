@@ -36,7 +36,9 @@ const RecipeAddView = ({ theme, onAddRecipe }) => {
       return;
     }
 
-    const newRecipe = { name, category, ingredients, preparation };
+    const ingredientsArray = ingredients.split(',').map(ingredient => ingredient.trim());
+
+  const newRecipe = { name, category, ingredients: ingredientsArray, preparation };
     onAddRecipe(newRecipe);
     setName('');
     setCategory('');
@@ -57,7 +59,7 @@ const RecipeAddView = ({ theme, onAddRecipe }) => {
         <HelperText type="error" visible={!!errors.name} style={{ color: 'red' }}>
           {errors.name}
         </HelperText>
-        <Text>Select a category</Text>
+        <Text style={styles.label}>Select a category</Text>
         <RadioButton.Group
           onValueChange={newValue => setCategory(newValue)}
           value={category}
@@ -126,6 +128,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 12
+  },
+  label: {
+    fontSize: 18, 
+    fontWeight: 'bold'
   }
 });
 

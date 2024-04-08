@@ -17,7 +17,8 @@ const theme = {
     background: '#F2F2F2',
     surface: '#F1F1F1',
     text: '#000000',
-    placeholder: '#757575'
+    placeholder: '#757575',
+    segmentActive: '#d6e9e9'
   },
 };
 
@@ -36,14 +37,12 @@ const recipesMock = [
       'Salt',
       'Oil'
     ],
-    preparation: `
-      1. Cook the chicken breast and shred it.
-      2. Finely chop the onion and cilantro.
-      3. Heat the tortillas on a griddle.
-      4. Fill the tortillas with shredded chicken, onion, and cilantro.
-      5. Add salsa to taste.
-      6. Squeeze lime over the top and add salt if needed.
-    `
+    preparation: `Cook the chicken breast and shred it.
+    Finely chop the onion and cilantro.
+    Heat the tortillas on a griddle.
+    Fill the tortillas with shredded chicken, onion, and cilantro.
+    Add salsa to taste.
+    Squeeze lime over the top and add salt if needed.`
   },
   {
     id: '2',
@@ -56,13 +55,11 @@ const recipesMock = [
       'Parmesan cheese',
       'Caesar dressing'
     ],
-    preparation: `
-      1. Wash and sanitize the romaine lettuce, then chop it into pieces.
-      2. Cook the chicken breast and cut it into strips or cubes.
-      3. Mix the lettuce with the chicken, croutons, and Parmesan cheese in a bowl.
-      4. Add the Caesar dressing and mix well.
-      5. Serve cold and enjoy.
-    `
+    preparation: `Wash and sanitize the romaine lettuce, then chop it into pieces.
+    Cook the chicken breast and cut it into strips or cubes.
+    Mix the lettuce with the chicken, croutons, and Parmesan cheese in a bowl.
+    Add the Caesar dressing and mix well.
+    Serve cold and enjoy.`
   },
 ];
 

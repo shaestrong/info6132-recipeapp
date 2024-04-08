@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Chip, Avatar } from 'react-native-paper';
+import { categoryPastelColors, categoryIcons, darkenedColor } from '../../includes/variables';
+
 
 const RecipeListView = ({ navigation, recipes }) => {
   const [recipeData, setRecipeData] = useState([]);
@@ -9,7 +12,7 @@ const RecipeListView = ({ navigation, recipes }) => {
   useEffect(() => {
     setRecipeData(recipes);
   }, [recipes]);
-  
+
 
   const toggleRecipeExpansion = (recipeId) => {
     setExpandedRecipe(expandedRecipe === recipeId ? null : recipeId);
@@ -30,7 +33,17 @@ const RecipeListView = ({ navigation, recipes }) => {
       </TouchableOpacity>
       {expandedRecipe === item.id && (
         <View style={styles.recipeContent}>
-          <Text>{item.category}</Text>
+          <Chip
+            style={{ backgroundColor: categoryPastelColors[item.category.toLowerCase()] , width: 120}}
+            avatar={<Avatar.Icon
+              size={38}
+              icon={categoryIcons[item.category.toLowerCase()]}
+              color={darkenedColor[item.category.toLowerCase()]}
+              style={{ backgroundColor: categoryPastelColors[item.category.toLowerCase()] }}
+            />}
+          >
+            {item.category}
+          </Chip>
           <TouchableOpacity onPress={() => navigation.navigate('RecipeDetailView', { item })}>
             <Text style={styles.viewRecipeText}>View Recipe</Text>
           </TouchableOpacity>
