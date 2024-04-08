@@ -1,12 +1,132 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { withTheme, HelperText, TextInput as PaperTextInput, Button, RadioButton } from 'react-native-paper';
 
-const RecipeAddView = ({  }) => {
+const RecipeAddView = ({ theme, onAddRecipe }) => {
+  const { colors } = theme;
+  const [name, setName] = useState('');
+  const [category, setCategory] = useState('');
+  const [ingredients, setIngredients] = useState('');
+  const [preparation, setPreparation] = useState('');
+  const [errors, setErrors] = useState({});
+
+  const categories = ['breakfast', 'lunch', 'dinner', 'salads', 'drinks', 'desserts'];
+
+  const handleAddRecipe = () => {
+    let formErrors = {};
+
+    if (!name.trim()) {
+      formErrors.name = 'Recipe name is required';
+    }
+
+    if (!category) {
+      formErrors.category = 'Category is required';
+    }
+
+    if (!ingredients.trim()) {
+      formErrors.ingredients = 'Ingredients are required';
+    }
+
+    if (!preparation.trim()) {
+      formErrors.preparation = 'Preparation steps are required';
+    }
+
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
+
+    const newRecipe = { name, category, ingredients, preparation };
+    onAddRecipe(newRecipe);
+    setName('');
+    setCategory('');
+    setIngredients('');
+    setPreparation('');
+    setErrors({});
+  };
+
   return (
-    <View>
-      <Text>Recipe Add View</Text>
+    <View style={styles.container}>
+      <ScrollView>
+        <PaperTextInput
+          label="Recipe Name"
+          value={name}
+          onChangeText={setName}
+          style={[styles.input, { backgroundColor: colors.surface }]}
+        />
+        <HelperText type="error" visible={!!errors.name} style={{ color: 'red' }}>
+          {errors.name}
+        </HelperText>
+        <Text>Select a category</Text>
+        <RadioButton.Group
+          onValueChange={newValue => setCategory(newValue)}
+          value={category}
+        >
+          {categories.map((item) => (
+            <View key={item}>
+              <RadioButton.Item
+                label={item}
+                value={item}
+                status={errors.category ? 'error' : 'unchecked'}
+              />
+            </View>
+          ))}
+        </RadioButton.Group>
+        <HelperText type="error" visible={!!errors.category} style={{ color: 'red' }}>
+          {errors.category}
+        </HelperText>
+        <PaperTextInput
+          label="Ingredients (comma separated)"
+          value={ingredients}
+          onChangeText={setIngredients}
+          style={[styles.input, { backgroundColor: colors.surface }]}
+        />
+        <HelperText type="error" visible={!!errors.ingredients} style={{ color: 'red' }}>
+          {errors.ingredients}
+        </HelperText>
+        <PaperTextInput
+          label="Preparation"
+          multiline
+          numberOfLines={8}
+          value={preparation}
+          onChangeText={setPreparation}
+          style={[styles.largeInput, { backgroundColor: colors.surface }]}
+          textAlignVertical="top"
+        />
+        <HelperText type="error" visible={!!errors.preparation} style={{ color: 'red' }}>
+          {errors.preparation}
+        </HelperText>
+      </ScrollView>
+
+      <Button mode="contained" onPress={handleAddRecipe} style={styles.button}>
+        Save Recipe
+      </Button>
     </View>
   );
 };
 
-export default RecipeAddView;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  input: {
+    marginBottom: 4,
+  },
+  largeInput: {
+    height: 160,
+    marginBottom: 4,
+    textAlignVertical: 'top',
+  },
+  button: {
+    marginTop: 12
+  }
+});
+
+export default withTheme(RecipeAddView);

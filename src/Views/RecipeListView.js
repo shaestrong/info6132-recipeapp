@@ -8,7 +8,8 @@ const RecipeListView = ({ navigation, recipes }) => {
 
   useEffect(() => {
     setRecipeData(recipes);
-  }, []);
+  }, [recipes]);
+  
 
   const toggleRecipeExpansion = (recipeId) => {
     setExpandedRecipe(expandedRecipe === recipeId ? null : recipeId);
@@ -29,7 +30,7 @@ const RecipeListView = ({ navigation, recipes }) => {
       </TouchableOpacity>
       {expandedRecipe === item.id && (
         <View style={styles.recipeContent}>
-          <Text>{item.description}</Text>
+          <Text>{item.category}</Text>
           <TouchableOpacity onPress={() => navigation.navigate('RecipeDetailView', { item })}>
             <Text style={styles.viewRecipeText}>View Recipe</Text>
           </TouchableOpacity>
