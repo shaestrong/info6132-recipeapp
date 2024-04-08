@@ -2,14 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-// Sample recipe data
-const recipes = [
-  { id: '1', name: 'Recipe 1', amount: 10, description: 'Description for Recipe 1' },
-  { id: '2', name: 'Recipe 2', amount: 20, description: 'Description for Recipe 2' },
-  { id: '3', name: 'Recipe 3', amount: 30, description: 'Description for Recipe 3' },
-];
-
-export default function RecipeListView({ navigation }) {
+const RecipeListView = ({ navigation, recipes }) => {
   const [recipeData, setRecipeData] = useState([]);
   const [expandedRecipe, setExpandedRecipe] = useState(null);
 
@@ -37,7 +30,7 @@ export default function RecipeListView({ navigation }) {
       {expandedRecipe === item.id && (
         <View style={styles.recipeContent}>
           <Text>{item.description}</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('RecipeDetailView', { recipe: item })}>
+          <TouchableOpacity onPress={() => navigation.navigate('RecipeDetailView', { item })}>
             <Text style={styles.viewRecipeText}>View Recipe</Text>
           </TouchableOpacity>
         </View>
@@ -85,3 +78,6 @@ const styles = StyleSheet.create({
     color: 'blue',
   },
 });
+
+
+export default RecipeListView;

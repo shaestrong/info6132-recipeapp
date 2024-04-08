@@ -6,9 +6,7 @@ const RecipeDetailView = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.recipeName}>{recipe.name}</Text>
-      <Text style={styles.recipeDescription}>{recipe.description}</Text>
-      <Text style={styles.recipeAmount}>Amount: ${recipe.amount}</Text>
+<Text>Detail</Text>
     </View>
   );
 };

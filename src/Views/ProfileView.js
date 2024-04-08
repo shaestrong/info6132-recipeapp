@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const RecipeAddView = ({ navigator }) => {
+const ProfileView = ({ navigator }) => {
   return (
     <View>
-      <Text>Recipe List View</Text>
+      <Text>profile</Text>
     </View>
   );
 };
 
-export default RecipeAddView;
+export default ProfileView;
