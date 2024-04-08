@@ -7,6 +7,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",
+    padding: 16,
+  },
+  mb: {
+    marginBottom: 16,
   },
 });
 
@@ -35,16 +39,20 @@ const Login = ({ navigation, auth }) => {
   return (
     <View style={styles.container}>
       <View>
-        <PaperTextInput label="Email" value={email} onChangeText={setEmail} />
+        <PaperTextInput label="Email" value={email} onChangeText={setEmail} 
+          mode="outlined"
+        />
 
         <PaperTextInput
           label="Password"
           value={password}
-          type="password"
+          secureTextEntry={true}
           onChangeText={setPassword}
+          style={styles.mb}
+          mode="outlined"
         />
 
-        <Button onPress={handleLogin}>Login</Button>
+        <Button onPress={handleLogin} mode="contained" style={styles.mb}>Login</Button>
 
         <Button onPress={() => navigation.navigate("Register")}>
           Register

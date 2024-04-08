@@ -1,16 +1,21 @@
 import {
     TextInput as PaperTextInput,
     Snackbar,
+    Button
 } from 'react-native-paper';
 
 import React, { useState } from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
       justifyContent: 'space-between',
+      padding: 16,
     },
+    mb: {
+        marginBottom: 16
+    }
   });
 
 const Register = ({ navigation, auth }) => {
@@ -39,17 +44,25 @@ const Register = ({ navigation, auth }) => {
         <PaperTextInput
             label="Email"
             value={email}
+            mode='outlined'
             onChangeText={setEmail}
+            style={styles.mb}
         />
 
         <PaperTextInput
             label="Password"
             value={password}
-            type="password"
+            secureTextEntry={true}
+            mode='outlined'
             onChangeText={setPassword}
+            style={styles.mb}
         />
 
-        <Button onPress={() => handleCreateUser()} title="Register">Register</Button>
+        <Button 
+            mode='contained'
+            onPress={() => handleCreateUser()}
+            title="Register"
+        >Register</Button>
 
         </View>
 
