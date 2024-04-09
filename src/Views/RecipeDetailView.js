@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
-import { Text, ScrollView, StyleSheet, View, } from 'react-native';
-import { withTheme, Chip, Avatar, Card, SegmentedButtons } from 'react-native-paper';
+import React, { useState, useRef } from 'react';
+import { Text, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { withTheme, Chip, Avatar, Card, SegmentedButtons, TextInput as PaperTextInput } from 'react-native-paper';
 import { categoryIcons, darkenedColor, categoryPastelColors } from '../../includes/variables';
+
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
 
 const RecipeDetailView = ({ theme, route }) => {
   const { colors } = theme;
   const { item } = route.params;
   const [selectedSection, setSelectedSection] = useState('ingredients');
+  const { height } = useWindowDimensions();
+  const scrollViewRef = useRef(null);
 
   return (
-
     <Card style={styles.card} type='outlined'>
       <Card.Title
         title={item.name}
@@ -23,7 +28,7 @@ const RecipeDetailView = ({ theme, route }) => {
             style={{ backgroundColor: categoryPastelColors[item.category.toLowerCase()] }}
           />}
         >
-          {item.category}
+          {capitalizeFirstLetter(item.category)}
         </Chip>}
       />
       <Card.Content>
@@ -61,31 +66,22 @@ const RecipeDetailView = ({ theme, route }) => {
           ]}
         />
         {selectedSection === 'ingredients' ? (
-          <>
-            <ScrollView>
-              {item.ingredients.map((ingredient, index) => (
-                <View key={index} style={styles.textContainer}>
-                  <Text style={styles.value}>{ingredient}</Text>
-                </View>
-
-              ))}
-            </ScrollView>
-          </>
+          <ScrollView>
+            {item.ingredients.map((ingredient, index) => (
+              <View key={index} style={styles.textContainer}>
+                <Text style={styles.value}>{ingredient}</Text>
+              </View>
+            ))}
+          </ScrollView>
         ) : (
-          <>
-             <ScrollView>
-              {item.preparation.split('\n').map((line, index) => (
-                <View key={index} style={styles.textContainer}>
-                  <Text style={styles.value}>{line}</Text>
-                </View>
-              ))}
-            </ScrollView>
-
-          </>
+          <ScrollView ref={scrollViewRef}>
+            <View style={styles.preparationContainer}>
+              <Text style={styles.preparationText}>{item.preparation}</Text>
+            </View>
+          </ScrollView>
         )}
       </Card.Content>
     </Card>
-
   );
 };
 
@@ -106,7 +102,6 @@ const styles = StyleSheet.create({
   },
   value: {
     fontSize: 16,
-
   },
   card: {
     margin: 10,
@@ -117,10 +112,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: 16,
     color: '#333',
+    marginBottom: 20
   },
   contentContainer: {
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingVertical: 20,
+    marginTop: 20
   },
   segmented: {
     marginVertical: 12,
@@ -130,7 +127,16 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     padding: 12,
     backgroundColor: '#F1F1F1',
-  }
+  },
+  preparationContainer: {
+    borderRadius: 8,
+    marginBottom: 0,
+    padding: 12,
+    backgroundColor: '#F1F1F1',
+  },
+  preparationText: {
+    fontSize: 16,
+  },
 });
 
 export default withTheme(RecipeDetailView);
