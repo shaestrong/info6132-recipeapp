@@ -103,7 +103,7 @@ const RecipeAddView = ({ theme, onAddRecipe }) => {
         />
       </ScrollView>
 
-      <Button mode="contained" onPress={handleAddRecipe} style={styles.button}>
+      <Button mode="contained" onPress={handleAddRecipe} style={styles.button} labelStyle={{ color: 'white',fontSize: 16, fontWeight: "bold" }}>
         Save Recipe
       </Button>
     </View>

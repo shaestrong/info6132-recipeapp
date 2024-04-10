@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Chip, Avatar } from 'react-native-paper';
+import { Chip, Avatar, Button } from 'react-native-paper';
 import { categoryPastelColors, categoryIcons, darkenedColor } from '../../includes/variables';
 
 
@@ -13,46 +12,37 @@ const RecipeListView = ({ navigation, recipes }) => {
     setRecipeData(recipes);
   }, [recipes]);
 
-
-  const toggleRecipeExpansion = (recipeId) => {
-    setExpandedRecipe(expandedRecipe === recipeId ? null : recipeId);
-  };
-
   const renderItem = ({ item }) => {
-  
-  const capitalizedCategory = item.category.charAt(0).toUpperCase() + item.category.slice(1);
-  
+
+    const capitalizedCategory = item.category.charAt(0).toUpperCase() + item.category.slice(1);
+
     return (
       <View style={styles.recipeItem}>
-        <TouchableOpacity
-          onPress={() => toggleRecipeExpansion(item.id)}
-          style={styles.recipeHeader}
-        >
+        <View style={styles.recipeHeader}>
           <Text style={styles.recipeName}>{item.name}</Text>
-          <MaterialIcons
-            name={expandedRecipe === item.id ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
-            size={24}
-            color="#999"
-          />
-        </TouchableOpacity>
-        {expandedRecipe === item.id && (
-          <View style={styles.recipeContent}>
-            <Chip
-              style={{ backgroundColor: categoryPastelColors[capitalizedCategory.toLowerCase()], width: 120 }}
-              avatar={<Avatar.Icon
-                size={38}
-                icon={categoryIcons[capitalizedCategory.toLowerCase()]}
-                color={darkenedColor[capitalizedCategory.toLowerCase()]}
-                style={{ backgroundColor: categoryPastelColors[capitalizedCategory.toLowerCase()] }}
-              />}
-            >
-              {capitalizedCategory}
-            </Chip>
-            <TouchableOpacity onPress={() => navigation.navigate('RecipeDetailView', { item })}>
-              <Text style={styles.viewRecipeText}>View Recipe</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+
+          <Chip
+            style={{ backgroundColor: categoryPastelColors[capitalizedCategory.toLowerCase()], width: 120, height:32 }}
+            avatar={<Avatar.Icon
+              size={38}
+              icon={categoryIcons[capitalizedCategory.toLowerCase()]}
+              color={darkenedColor[capitalizedCategory.toLowerCase()]}
+              style={{ backgroundColor: categoryPastelColors[capitalizedCategory.toLowerCase()] }}
+            />}
+          >
+            {capitalizedCategory}
+          </Chip>
+        </View>
+        <Button
+          onPress={() => navigation.navigate('RecipeDetailView', { item })}
+          style={styles.button}
+          mode="outlined"
+          labelStyle={{ fontSize: 16, fontWeight: "bold" }}
+        >
+          View Recipe
+        </Button>
+
+
       </View>
     );
   };
@@ -76,26 +66,34 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     marginBottom: 10,
+    paddingBottom:5,
     elevation: 2,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
   },
   recipeHeader: {
-    flexDirection: 'row',
+    flexDirection:'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
     padding: 15,
   },
   recipeName: {
     fontSize: 16,
     fontWeight: 'bold',
+    flex: 2,
+    paddingRight:8
   },
   recipeContent: {
-    paddingHorizontal: 15,
-    paddingBottom: 15,
+    paddingVertical: 10,
   },
-  viewRecipeText: {
-    paddingTop: 20,
-    color: 'blue',
-  },
+  button: {
+    marginVertical: 10,
+    marginHorizontal: 90,
+    borderColor: "#18AB91",
+  }
 });
 
 

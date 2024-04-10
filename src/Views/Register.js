@@ -1,24 +1,35 @@
 import {
     TextInput as PaperTextInput,
     Snackbar,
-    Button
+    Button,
+    withTheme
 } from 'react-native-paper';
 
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'space-between',
+      justifyContent: "center",
       padding: 16,
+      paddingBottom: 150,
+      backgroundColor: 'white'
     },
-    mb: {
-        marginBottom: 16
-    }
+    title: {
+        color:'#18AB91',
+        fontWeight: 'bold',
+        fontSize: 30,
+        marginBottom:10,
+        textAlign: 'center'
+      },
+    input: {
+        marginBottom: 12,
+      },
   });
 
-const Register = ({ navigation, auth }) => {
+const Register = ({ theme, navigation, auth }) => {
+    const { colors } = theme;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [visible, setVisible] = useState(false);
@@ -41,12 +52,13 @@ const Register = ({ navigation, auth }) => {
 
     return (<View style={styles.container}>
         <View>
+        <Text style={styles.title}>Create Your Account</Text>
         <PaperTextInput
             label="Email"
             value={email}
             mode='outlined'
             onChangeText={setEmail}
-            style={styles.mb}
+            style={[styles.input, { backgroundColor: colors.surface }]}
         />
 
         <PaperTextInput
@@ -55,13 +67,14 @@ const Register = ({ navigation, auth }) => {
             secureTextEntry={true}
             mode='outlined'
             onChangeText={setPassword}
-            style={styles.mb}
+            style={[styles.input, { backgroundColor: colors.surface }]}
         />
 
         <Button 
             mode='contained'
             onPress={() => handleCreateUser()}
             title="Register"
+            labelStyle={{ color: 'white',fontSize: 16, fontWeight: "bold" }}
         >Register</Button>
 
         </View>
@@ -74,4 +87,4 @@ const Register = ({ navigation, auth }) => {
     </View>)
 }
 
-export default Register;
+export default withTheme(Register);

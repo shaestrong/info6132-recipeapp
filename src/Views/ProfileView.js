@@ -3,8 +3,19 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    flex: 1,
+    padding:16
+  },
+  label: {
+    fontSize: 16,
+    paddingVertical:20,
+  },
   email: {
-    padding: 16,
+    fontSize: 20,
+    marginBottom:20,
+    fontWeight: 'bold'
   },
 });
 
@@ -23,9 +34,10 @@ const ProfileView = ({ navigator, auth }) => {
   }
 
   return (
-    <View>
-      <Text style={styles.email}>Logged in as: {user.email}</Text>
-      <Button onPress={logout}>Logout</Button>
+    <View style={styles.container}>
+      <Text style={styles.label}>Logged in as:</Text>
+      <Text style={styles.email}>{user.email}</Text>
+      <Button mode="contained" onPress={logout} labelStyle={{ color: 'white',fontSize: 16, fontWeight: "bold" }}>Logout</Button>
     </View>
   );
 };

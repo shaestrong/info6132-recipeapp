@@ -19,6 +19,7 @@ const RecipeDetailView = ({ theme, route }) => {
       <Card.Title
         title={item.name}
         titleStyle={styles.title}
+        titleNumberOfLines={3}
         subtitle={<Chip
           style={{ backgroundColor: categoryPastelColors[item.category.toLowerCase()] }}
           avatar={<Avatar.Icon
@@ -76,7 +77,9 @@ const RecipeDetailView = ({ theme, route }) => {
         ) : (
           <ScrollView ref={scrollViewRef}>
             <View style={styles.preparationContainer}>
-              <Text style={styles.preparationText}>{item.preparation}</Text>
+              {item.preparation.split('\n').map((line, index) => (
+                <Text key={index} style={styles.preparationText}>{line}</Text>
+              ))}
             </View>
           </ScrollView>
         )}
@@ -136,6 +139,7 @@ const styles = StyleSheet.create({
   },
   preparationText: {
     fontSize: 16,
+    marginBottom: 20
   },
 });
 
